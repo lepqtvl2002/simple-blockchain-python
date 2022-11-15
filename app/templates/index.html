@@ -1,0 +1,47 @@
+<!-- extend base layout -->
+{% extends "base.html" %} {% block content %}
+<br />
+<form action="/submit" id="textform" method="post">
+  <textarea
+    name="content"
+    rows="4"
+    cols="50"
+    placeholder="Just write whatever you want to..."
+  ></textarea>
+  <br />
+  <input type="text" name="author" placeholder="Your name" />
+  <input type="submit" value="Post" />
+</form>
+<br />
+
+<a href="{{node_address}}/mine"
+  ><button>Request to mine</button></a
+>
+<a href="/"><button>Resync</button></a>
+
+<div class="post_container">
+  {% for post in posts %}
+  <div class="post_box">
+    <div class="post_box-header">
+      <div class="post_box-avatar">{{post.author[0]}}</div>
+      <div class="name-header">{{post.author}}</div>
+      <div class="post_box-subtitle">
+        Posted at <i>{{readable_time(post.timestamp)}}</i>
+      </div>
+    </div>
+    <div>
+      <div class="post_box-body">
+        <p>{{post.content}}</p>
+      </div>
+    </div>
+    <form action="/submit" method="post">
+      <span type="text" name="author">Author</span>
+      <input class="reply-input" name="content" type="text" onblur="hide(event)">
+      <button type="button" class="reply-btn" onclick="reply(event)">Reply</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+<button class="btn" onclick="hello()">Hello</button>
+<script src="../static/main.js"></script>
+{% endblock %}
