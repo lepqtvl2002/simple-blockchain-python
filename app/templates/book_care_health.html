@@ -5,23 +5,23 @@
     <div class="col-7">
       <form action="/submit" id="textform" method="post">
         <div class="mb-3">
-          <label class="form-label" for="name">Ho Va Ten</label>
+          <label class="form-label" for="name">Name</label>
           <input class="form-control" type="text" name="name" id="id" value="{{patient.name}}"/>
         </div>
   
         <div class="mb-3">
-          <label class="form-label" for="birthday">Ngay Sinh</label>
+          <label class="form-label" for="birthday">Birthday</label>
           <input class="form-control" type="date" name="birthday" id="birthday" value="{{patient.birthday}}"/>
         </div>
   
         <div class="form-floating mb-3">
-          <label class="form-label" for="diagnostic">Chuan doan cua bac si</label>
+          <label class="form-label" for="diagnostic">Doctor's diagnosis</label>
           <textarea
             id="diagnostic"
             name="diagnostic"
             class="form-control"
             rows="4"
-            placeholder="Diagnostic"
+            placeholder="Diseases..."
           ></textarea>
         </div>
   
@@ -31,8 +31,11 @@
     </div>
     <div class="col-5">
       <div class="post_container">
-        <h4>Lich su kham benh</h4>
+        <h4>Medical examination history</h4>
         <hr/>
+        {% if posts=={} %}
+        <p>Nothing here</p>
+        {% endif %}
         {% for post in posts %}
         <div class="d-flex flex-column">
           <div class="post_box-header">

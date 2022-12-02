@@ -45,10 +45,18 @@ def fetch_posts():
 @app.route('/')
 def index():
     fetch_posts()
+    length = len(posts)
+
+    def filterFnc(x):
+        if x["index"] < length - 10:
+            return False
+        else:
+            return True
+    selectPosts = filter(filterFnc, posts)
     return render_template(['index.html'],
                            title='STORE MEDICAL HISTORY '
                                  'WITH BLOCKCHAIN',
-                           posts=posts,
+                           posts=selectPosts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
 
