@@ -1,54 +1,42 @@
 <!-- extend base layout -->
 {% extends "base.html" %} {% block content %}
-<br />
 <div class="container">
   <div class="row">
     <div class="col-7">
-      <form action="/search" id="textform" method="post">
-        <div class="mb-3">
-          <label class="form-label" for="bhyt">Ma the BHYT</label>
-          <input class="form-control" type="text" name="bhyt" id="bhyt" />
-        </div>
-
+      <form action="/submit" id="textform" method="post">
         <div class="mb-3">
           <label class="form-label" for="name">Ho Va Ten</label>
-          <input class="form-control" type="text" name="name" id="id" />
+          <input class="form-control" type="text" name="name" id="id" value="{{patient.name}}"/>
         </div>
-
+  
         <div class="mb-3">
           <label class="form-label" for="birthday">Ngay Sinh</label>
-          <input
-            class="form-control"
-            type="date"
-            name="birthday"
-            id="birthday"
-          />
+          <input class="form-control" type="date" name="birthday" id="birthday" value="{{patient.birthday}}"/>
         </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="phoneNumber">So Dien Thoai</label>
-          <input
+  
+        <div class="form-floating mb-3">
+          <label class="form-label" for="diagnostic">Chuan doan cua bac si</label>
+          <textarea
+            id="diagnostic"
+            name="diagnostic"
             class="form-control"
-            type="tel"
-            name="phoneNumber"
-            id="phoneNumber"
-          />
+            rows="4"
+            placeholder="Diagnostic"
+          >{{patient.birthday}}</textarea>
         </div>
-
-        <input class="btn btn-primary" type="submit" value="Search" />
+  
+        <input class="btn btn-success" type="submit" value="Post" />
       </form>
       <br />
     </div>
     <div class="col-5">
-      <h4>Danh sach tham kham gan day</h4>
-      <a class="btn btn-success" href="/">Resync</a>
-      <hr />
-
-      <div class="container">
+      <div class="post_container">
+        <h4>Lich su kham benh</h4>
+        <hr/>
         {% for post in posts %}
         <div class="d-flex flex-column">
           <div class="post_box-header">
-            <b class="name-header">{{post.name}}</b>
+            <div class="name-header">{{post.name}}</div>
             <div class="post_box-subtitle">
               At <i>{{readable_time(post.timestamp)}}</i>
             </div>

@@ -1,3 +1,11 @@
+from pymongo import MongoClient
+# Creating instance of mongoclient
+
+client = MongoClient("mongodb+srv://admin:thang30102002@cluster0.tqz3n44.mongodb.net/?retryWrites=true&w=majority")
+# Create Database
+db = client.test
+
+
 import datetime
 import json
 
@@ -38,11 +46,62 @@ def fetch_posts():
 def index():
     fetch_posts()
     return render_template(['index.html'],
-                           title='YourNet: Decentralized '
-                                 'content sharing',
+                           title='Store medical history '
+                                 'with blockchain',
                            posts=posts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
+
+@app.route('/book_care_health')
+def book_care_health():
+  
+    return render_template(['book_care_health.html'],
+                           title='BOOK CARE HEALTH',
+                           patient={},
+                           posts={},
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+
+@app.route('/search', methods=['POST'])
+def search_textarea():
+    """
+    Search patient
+    """
+    bhyt = request.form["bhyt"]
+    name = request.form["name"]
+    birthday = request.form["birthday"]
+    phone_number = request.form["phoneNumber"]
+
+    def getPatientById(bhyt):
+        for x in db.patients.find():
+            if (x["bhyt"] == bhyt):
+                return x
+        return {}
+
+    patient = getPatientById(int(bhyt))
+
+    if (patient):
+        def filterFnc(x):
+            if  x["name"] == patient["name"]:
+                return True
+            else:
+                return False
+
+        selectPosts = filter(filterFnc, posts)
+        return render_template(['book_care_health.html'],
+                           title='BOOK CARE HEALTH',
+                           patient=patient,
+                           posts=selectPosts,
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+
+    else:
+        return render_template(['index.html'],
+                           title='NOT FOUND',
+                           posts=patient,
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+    
 
 
 @app.route('/submit', methods=['POST'])
@@ -50,12 +109,14 @@ def submit_textarea():
     """
     Endpoint to create a new transaction via our application.
     """
-    post_content = request.form["content"]
-    author = request.form["author"]
+    name = request.form["name"]
+    birthday = request.form["birthday"]
+    diagnostic = request.form["diagnostic"]
 
     post_object = {
-        'author': author,
-        'content': post_content,
+        'name': name,
+        'birthday': birthday,
+        'diagnostic' : diagnostic
     }
 
     # Submit a transaction
@@ -69,4 +130,4 @@ def submit_textarea():
 
 
 def timestamp_to_string(epoch_time):
-    return datetime.datetime.fromtimestamp(epoch_time).strftime('%H:%M')
+    return datetime.datetime.fromtimestamp(epoch_time).strftime('%Y-%m-%d %H:%M')
