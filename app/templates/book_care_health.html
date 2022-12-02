@@ -22,7 +22,7 @@
             class="form-control"
             rows="4"
             placeholder="Diagnostic"
-          >{{patient.birthday}}</textarea>
+          ></textarea>
         </div>
   
         <input class="btn btn-success" type="submit" value="Post" />
@@ -36,7 +36,7 @@
         {% for post in posts %}
         <div class="d-flex flex-column">
           <div class="post_box-header">
-            <div class="name-header">{{post.name}}</div>
+            <b class="name-header">{{post.name}}</b>
             <div class="post_box-subtitle">
               At <i>{{readable_time(post.timestamp)}}</i>
             </div>

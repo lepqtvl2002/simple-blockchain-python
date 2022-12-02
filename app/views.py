@@ -46,8 +46,8 @@ def fetch_posts():
 def index():
     fetch_posts()
     return render_template(['index.html'],
-                           title='Store medical history '
-                                 'with blockchain',
+                           title='STORE MEDICAL HISTORY '
+                                 'WITH BLOCKCHAIN',
                            posts=posts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
@@ -81,6 +81,8 @@ def search_textarea():
     patient = getPatientById(int(bhyt))
 
     if (patient):
+        patient["birthday"] = patient["birthday"].strftime('%Y-%m-%d')
+
         def filterFnc(x):
             if  x["name"] == patient["name"]:
                 return True
