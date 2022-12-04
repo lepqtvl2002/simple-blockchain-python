@@ -20,6 +20,19 @@ CONNECTED_NODE_ADDRESS = "http://127.0.0.1:8000"
 
 posts = []
 
+peers = []
+
+medical_services = []
+
+def fetch_medical_services():
+    """
+    Function to fetch medical services
+    """
+    global medical_services
+    medical_services = db.medical_service.find()
+
+
+
 
 def fetch_posts():
     """
@@ -41,6 +54,9 @@ def fetch_posts():
         posts = sorted(content, key=lambda k: k['timestamp'],
                        reverse=True)
 
+        global peers
+        peers = chain["peers"]
+
 
 @app.route('/')
 def index():
@@ -54,17 +70,19 @@ def index():
             return True
     selectPosts = filter(filterFnc, posts)
     return render_template(['index.html'],
+                            peers= peers,
                            title='STORE MEDICAL HISTORY '
                                  'WITH BLOCKCHAIN',
                            posts=selectPosts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
 
-@app.route('/book_care_health')
-def book_care_health():
-  
-    return render_template(['book_care_health.html'],
-                           title='BOOK CARE HEALTH',
+@app.route('/care_health_book')
+def care_health_book():
+    fetch_medical_services()
+    return render_template(['care_health_book.html'],
+                           title='CARE HEALTH BOOK',
+                           medical_services = medical_services,
                            patient={},
                            posts={},
                            node_address=CONNECTED_NODE_ADDRESS,
@@ -75,31 +93,35 @@ def search_textarea():
     """
     Search patient
     """
+    fetch_medical_services()
+
     bhyt = request.form["bhyt"]
     name = request.form["name"]
     birthday = request.form["birthday"]
     phone_number = request.form["phoneNumber"]
 
+
     def getPatientById(bhyt):
-        for x in db.patients.find():
-            if (x["bhyt"] == bhyt):
+        for x in db.patient.find():
+            if (x["_id"] == bhyt):
                 return x
         return {}
 
     patient = getPatientById(int(bhyt))
 
     if (patient):
-        patient["birthday"] = patient["birthday"].strftime('%Y-%m-%d')
+        patient["birthdate"] = patient["birthdate"].strftime('%Y-%m-%d')
 
         def filterFnc(x):
-            if  x["name"] == patient["name"]:
+            if  int(x["patient_id"]) == patient["_id"]:
                 return True
             else:
                 return False
 
         selectPosts = filter(filterFnc, posts)
-        return render_template(['book_care_health.html'],
+        return render_template(['care_health_book.html'],
                            title='BOOK CARE HEALTH',
+                           medical_services = medical_services,
                            patient=patient,
                            posts=selectPosts,
                            node_address=CONNECTED_NODE_ADDRESS,
@@ -119,13 +141,13 @@ def submit_textarea():
     """
     Endpoint to create a new transaction via our application.
     """
-    name = request.form["name"]
-    birthday = request.form["birthday"]
+    patient_id = request.form["patientId"]
+    medical_service = request.form["medicalService"]
     diagnostic = request.form["diagnostic"]
 
     post_object = {
-        'name': name,
-        'birthday': birthday,
+        'patient_id': patient_id,
+        'medical_service': medical_service,
         'diagnostic' : diagnostic
     }
 

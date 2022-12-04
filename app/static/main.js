@@ -1,19 +1,10 @@
-function hello() {
-    alert('Hello');
-}
-function reply(e) {
-    const parent = e.target.parentElement;
-    const input = parent.querySelector('input'); 
-    if (input.style.display == 'block') {
-        parent.submit();
-    }
-    else {
-        input.style.display = 'block';
-        input.focus();
-    }
-}
+const showMoreBtns = document.querySelectorAll(".btn-show-more");
 
-function hide(e) {
-    const element = e.target;
-    element.style.display = 'none';
-}
+showMoreBtns.forEach((btnShowMore) => {
+  btnShowMore.onclick = () => {
+    const postContent = btnShowMore.parentElement;
+    postContent.querySelector(".content-more").classList.toggle("d-none");
+    const icon = btnShowMore.querySelector("i");
+    icon.classList.toggle("bi-chevron-compact-up");
+  };
+});
