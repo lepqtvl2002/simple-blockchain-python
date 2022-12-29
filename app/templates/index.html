@@ -5,8 +5,14 @@
     <div class="col-7">
       <form action="/search" id="textform" method="post">
         <div class="mb-3">
-          <label class="form-label" for="bhyt">BHYT</label>
-          <input class="form-control" type="text" name="bhyt" id="bhyt" />
+          <label class="form-label" for="bhyt">Patient ID</label>
+          <input
+            class="form-control"
+            type="text"
+            name="bhyt"
+            id="bhyt"
+            required
+          />
         </div>
 
         <div class="mb-3">
@@ -39,12 +45,14 @@
       <br />
     </div>
     <div class="col-5">
-      <div class="container">
+      <div class="container vh-100">
         <h4>Recent medical examination list</h4>
-        <a class="btn btn-success" href="/"><i class="bi bi-arrow-clockwise"></i></a>
+        <a class="btn btn-success" href="/"
+          ><i class="bi bi-arrow-clockwise"></i
+        ></a>
         <hr />
 
-        <div class="container h-25 overflow-auto">
+        <div class="container h-50 overflow-auto">
           {% for post in posts %}
           <div class="d-flex flex-column">
             <b class="text-break">Patient_{{post.hash}}</b>

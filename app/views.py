@@ -1,8 +1,7 @@
 from pymongo import MongoClient
-# Creating instance of mongoclient
 
 client = MongoClient("mongodb+srv://admin:thang30102002@cluster0.tqz3n44.mongodb.net/?retryWrites=true&w=majority")
-# Create Database
+
 db = client.test
 
 
@@ -15,8 +14,7 @@ from flask import render_template, redirect, request
 from app import app
 
 # The node with which our application interacts, there can be multiple
-# such nodes as well.
-CONNECTED_NODE_ADDRESS = "http://127.0.0.1:8000"
+CONNECTED_NODE_ADDRESS = "http://127.0.0.1:8000/"
 
 posts = []
 
@@ -70,6 +68,7 @@ def index():
             return True
     selectPosts = filter(filterFnc, posts)
     return render_template(['index.html'],
+    connected_node_address=CONNECTED_NODE_ADDRESS,
                             peers= peers,
                            title='STORE MEDICAL HISTORY '
                                  'WITH BLOCKCHAIN',

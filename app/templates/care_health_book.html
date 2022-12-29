@@ -12,6 +12,7 @@
             name="patientId"
             id="patientId"
             value="{{patient._id}}"
+            required
           />
         </div>
 
@@ -23,6 +24,7 @@
             name="name"
             id="id"
             value="{{patient.name}}"
+            required
           />
         </div>
 
@@ -34,6 +36,7 @@
             name="birthday"
             id="birthday"
             value="{{patient.birthdate}}"
+            required
           />
         </div>
 
@@ -61,6 +64,7 @@
             class="form-control"
             rows="4"
             placeholder="Diseases..."
+            required
           ></textarea>
         </div>
 
@@ -69,34 +73,36 @@
       <br />
     </div>
     <div class="col-5">
-      <div class="container">
+      <div class="container vh-100">
         <h4>Medical examination history</h4>
-        <hr />
-        {% if posts=={} %}
-        <p>Nothing here</p>
-        {% endif %} {% for post in posts %}
-        <div class="d-flex flex-column post-container">
-          <span class="text-black-50">
-            At <i>{{readable_time(post.timestamp)}}</i>
-          </span>
-          <div class="d-flex flex-column post-content">
-            <div class="container">
-              <span>
-                <b class="text-success">Medical service : </b>
-                {{post.medical_service}}
-              </span>
-              <p class="content-more d-none text-break">
-                <b class="text-primary">Diagnostic : </b>
-                {{post.diagnostic}}
-              </p>
+        <div class="container h-75 overflow-auto">
+          <hr />
+          {% if posts=={} %}
+          <p>Nothing here</p>
+          {% endif %} {% for post in posts %}
+          <div class="d-flex flex-column post-container">
+            <span class="text-black-50">
+              At <i>{{readable_time(post.timestamp)}}</i>
+            </span>
+            <div class="d-flex flex-column post-content">
+              <div class="container">
+                <span>
+                  <b class="text-success">Medical service : </b>
+                  {{post.medical_service}}
+                </span>
+                <p class="content-more d-none text-break">
+                  <b class="text-primary">Diagnostic : </b>
+                  {{post.diagnostic}}
+                </p>
+              </div>
+              <button class="btn btn-show-more">
+                <i class="bi bi-chevron-compact-down"></i>
+              </button>
             </div>
-            <button class="btn btn-show-more">
-              <i class="bi bi-chevron-compact-down"></i>
-            </button>
           </div>
+          <hr />
+          {% endfor %}
         </div>
-        <hr />
-        {% endfor %}
       </div>
     </div>
   </div>

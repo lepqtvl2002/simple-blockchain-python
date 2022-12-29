@@ -3,13 +3,13 @@
 Clone the project,
 
 ```sh
-$ git clone https://github.com/lepqtvl2002/simple_python_blockchain_app.git
+$ git clone https://github.com/lepqtvl2002/simple-blockchain-python.git
 ```
 
 Install the dependencies,
 
 ```sh
-$ cd python_blockchain_app
+$ cd simple-blockchain-python
 $ pip install -r requirements.txt
 ```
 
@@ -23,7 +23,6 @@ $ flask run --port 8000
 
 One instance of our blockchain node is now up and running at port 8000.
 
-
 Run the application on a different terminal session,
 
 ```sh
@@ -32,7 +31,7 @@ $ python3 run_app.py
 
 The application should be up and running at [http://localhost:5000](http://localhost:5000).
 
-To play around by spinning off multiple custom nodes, use the `register_with/` endpoint to register a new node. 
+To play around by spinning off multiple custom nodes, use the `register_with/` endpoint to register a new node.
 
 Here's a sample scenario that you might wanna try,
 
